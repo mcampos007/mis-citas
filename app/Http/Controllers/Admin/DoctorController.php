@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Specialty;
 
 class DoctorController extends Controller
 {
@@ -30,7 +31,8 @@ class DoctorController extends Controller
     public function create()
     {
         //
-        return view('doctors.create');
+        $specialties = Specialty::all();
+        return view('doctors.create', compact('specialties'));
     }
 
     /**
@@ -42,23 +44,37 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         //
+       //dd($request->toArray());
         $rules = [
             'name' => 'required|min:3',
             'email' => 'required|email',
-            'dni' => 'nullable|digits:8',
+            'dni' => 'nullable|min:7|max:8', //'nullable|digits:8',
             'address' => 'nullable|min:5',
             'phone' => 'nullable|min:6'
         ];
-        //$this->validate($request, $rules, $messages);
-        $this->validate($request, $rules);
 
-        User::create(
+        $messages = [
+            'name.required' => 'Se debe ingresar un nombre para el médico',
+            'name.min' => 'El nombre del médico debe tener al menos tres (3) caracteres.',
+            'email.required' => 'Se debe registrar un e-mail para el mmédico.',
+            'email.email' => 'La direccion de emaill ingresada no es válida.',
+            'dni.min' => 'El número de DNI debe tener al menos 7 números.',
+            'dni.max' => 'El número´de DNI No puede tener más de 8 dígitos.',
+            'address.min' => 'La dirección debe tener al menos 5 caracteres.',
+            'phone.min' => 'El número telefonico debe tener al menos 6 dígitos.'
+        ];
+        //$this->validate($request, $rules, $messages);
+        $this->validate($request, $rules, $messages);
+
+        $user = User::create(
             $request->only('name', 'email', 'dni', 'address', 'phone') +
             [
                 'role' => 'doctor',
                 'password' => bcrypt($request->input('password'))
             ]
         );
+
+        $user->specialties()->attach($request->input('specialties'));
 
         $notification = "El médico se ha registrado correctamente.";
         return redirect('/doctors')->with(compact('notification'));
@@ -88,7 +104,15 @@ class DoctorController extends Controller
     {
         //
         $doctor = User::doctors()->findOrFail($id);
-        return view('doctors.edit', compact('doctor'));
+
+        $specialities = Specialty::all();
+
+        $speciality_id = $doctor->specialties()->pluck('specialties.id');
+
+   //     dd($specialty_ids)->all();
+
+      
+        return view('doctors.edit', compact('doctor', 'specialities', 'speciality_id'));
     }
 
     /**
@@ -120,6 +144,8 @@ class DoctorController extends Controller
 
         $user ->fill($data);
         $user->save();
+
+        $user->specialties()->sync($request->input('specialities'));
 
         $notification = "La información del médico se ha actualizado correctamente.";
 

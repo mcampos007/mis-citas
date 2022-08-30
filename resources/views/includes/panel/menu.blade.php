@@ -46,7 +46,7 @@
     </li>
   @else
     <li class="nav-item">
-      <a class="nav-link" href="{{ url('/home')}}">
+      <a class="nav-link" href="{{ url('/appointments/create')}}">
         <i class="ni ni-send text-red"></i> Reservar turno
       </a>
     </li>

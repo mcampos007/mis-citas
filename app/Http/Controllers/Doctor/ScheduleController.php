@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Doctor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Work_day;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -17,7 +18,21 @@ class ScheduleController extends Controller
         // code...
 
         $days = $this->days;
-        return view('schedule', compact('days'));
+
+        $workDays = Work_day::where('user_id',auth()->id())->get();
+       
+        $workDays->map(function($workDay){
+            $workDay->morning_start = (new Carbon($workDay->morning_start))->format('g:i A');
+            $workDay->morning_end = (new Carbon($workDay->morning_end))->format('g:i A');
+            
+            $workDay->afternoon_start = (new Carbon($workDay->afternoon_start))->format('g:i A');
+            $workDay->afternoon_end = (new Carbon($workDay->afternoon_end))->format('g:i A');
+            
+            return $workDay;
+        });
+         //dd($workDays->toArray());
+
+        return view('schedule', compact('workDays','days'));
     }
 
     public function store(Request $request)
@@ -61,8 +76,9 @@ class ScheduleController extends Controller
         }
 
         
-        if ($errors)
+        if (count($errors) > 0)
             return  back()->with(compact('errors'));
+        
         $notification = "Los datos de han registrado satisfactoriamente !!!.";
             return  back()->with(compact('notification'));
     }

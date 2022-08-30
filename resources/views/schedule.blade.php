@@ -24,7 +24,7 @@
       @endif 
       @if (session('errors'))
         <div class="alert alert-danger" role="alert">
-            <p>Se han guardado los datos, pero existen incosistencias!!.</p>
+            <p>Se han guardado los datos, pero existen inconsistencias!!.</p>
             @foreach($errors as $error)
               <li>
                 <strong>{{ $error }}</strong> 
@@ -46,32 +46,42 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($days as $key => $day)
+          @foreach ($workDays as $key => $workDay)
           <tr>
-            <th> {{$day}}</th>
+            <th> {{$days[$key]}}</th>
             <td>
               <label class="custom-toggle">
-                <input type="checkbox"  name="active[]" value="{{ $key }}">
+                <input type="checkbox"  nAMe="active[]" value="{{ $key }}"
+                @if($workDay->active) checked @endif>
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
             </td>
             <td> 
               <div class="row">
                 <div class="col">
-                  <select class="form-control" name="morning_start[]">
+                  <select class="form-control" nAMe="morning_start[]">
                   @for($i=5; $i<=11; $i++)
-                    <option value="{{ ($i<10 ? '0': '').$i }}:00"
-                    @if($i.'00 AM' == $workDay->morning_start) selected @endif> {{ $i }}:00 am
+                    <option value="{{ ($i<10 ? '0' : '') .$i }}:00" 
+                    @if($i.':00 AM' == $workDay->morning_start) selected @endif> 
+                    {{ $i }}:00 AM
                     </option>
-                    <option value="{{ ($i<10 ? '0': '').$i }}:30"> {{ $i }}:30 am</option>
+                    <option value="{{ ($i<10 ? '0' : '') .$i }}:30" 
+                    @if($i.':30 AM' == $workDay->morning_start) selected @endif> 
+                     {{ $i }}:30 AM</option>
                   @endfor
                   </select>
                 </div>
                 <div class="col">
-                  <select class="form-control" name="morning_end[]">
+                  <select class="form-control" nAMe="morning_end[]">
                   @for($i=5; $i<=11; $i++)
-                    <option value="{{ ($i<10 ? '0': '').$i }}:00"> {{ $i }}:00 am</option>
-                    <option value="{{ ($i<10 ? '0': '').$i }}:30"> {{ $i }}:30 am</option>
+                    <option value="{{ ($i<10 ? '0' : '') .$i }}:00"
+                    @if($i.':00 AM' == $workDay->morning_end) selected @endif> 
+                    {{ $i }}:00 AM
+                    </option>
+                    <option value="{{ ($i<10 ? '0' : '') .$i }}:30"
+                    @if($i.':30 AM' == $workDay->morning_end) selected @endif>  
+                    {{ $i }}:30 AM
+                    </option>
                   @endfor
                   </select>
                 </div>
@@ -80,18 +90,30 @@
             <td> 
               <div class="row">
                 <div class="col">
-                  <select class="form-control" name="afternoon_start[]">
+                  <select class="form-control" nAMe="afternoon_start[]">
                   @for($i=1; $i<=11; $i++)
-                    <option value="{{ $i+12 }}:00"> {{ $i }}:00 pm</option>
-                    <option value="{{ $i+12 }}:30"> {{ $i }}:30 pm</option>
+                    <option value="{{ $i+12 }}:00"
+                    @if($i.':00 PM' == $workDay->afternoon_start) selected @endif>   
+                    {{ $i }}:00 PM
+                    </option>
+                    <option value="{{ $i+12 }}:30"
+                    @if($i.':30 PM' == $workDay->afternoon_start) selected @endif>    
+                    {{ $i }}:30 PM
+                    </option>
                   @endfor
                   </select>
                 </div>
                 <div class="col">
-                  <select class="form-control" name="afternoon_end[]">
+                  <select class="form-control" nAMe="afternoon_end[]">
                   @for($i=1; $i<=11; $i++)
-                    <option value="{{ $i+12 }}:00"> {{ $i }}:00 pm</option>
-                    <option value="{{ $i+12 }}:30"> {{ $i }}:30 pm</option>
+                    <option value="{{ $i+12 }}:00"
+                    @if($i.':00 PM' == $workDay->afternoon_end) selected @endif>    
+                    {{ $i }}:00 PM
+                    </option>
+                    <option value="{{ $i+12 }}:30"
+                    @if($i.':30 PM' == $workDay->afternoon_end) selected @endif>     
+                    {{ $i }}:30 PM
+                    </option>
                   @endfor
                   </select>
                 </div>
