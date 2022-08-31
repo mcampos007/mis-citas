@@ -1,5 +1,5 @@
 <?php
-use App\specialty;
+use App\Specialty;
 
 use Illuminate\Database\Seeder;
 
