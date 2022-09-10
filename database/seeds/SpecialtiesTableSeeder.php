@@ -1,5 +1,6 @@
 <?php
 use App\Specialty;
+use App\User;
 
 use Illuminate\Database\Seeder;
 
@@ -18,13 +19,20 @@ class SpecialtiesTableSeeder extends Seeder
             'Peiatria',
             'Neurología'
         ];
-        foreach ($specialties as $specialty) {
+        foreach ($specialties as $specialtyName) {
             // code...
-            Specialty::create(
+            $specialty = Specialty::create(
             [
-                'name' => $specialty
+                'name' => $specialtyName
             ]);
+
+            $specialty->users()->saveMany(
+                factory(User::class,3)->states('doctor')->make()
+            );
         }
+
+        //Medico Test
+        User::find(3)->specialties()->save($specialty);
         
     }
 }
