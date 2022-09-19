@@ -10,7 +10,7 @@ $(function () {
     $hours = $('#hours');
    
     $specialty.change(() => {
-     const specialtyId = $specialty.val();
+      const specialtyId = $specialty.val();
       const url = `/specialties/${specialtyId}/doctors`;
       $.getJSON(url, onDoctorsLoaded);
     });
