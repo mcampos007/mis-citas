@@ -7,4 +7,5 @@ deployment:
     - /bin/cp -R app $DEPLOYPATH
     - /bin/cp -R routes $DEPLOYPATH
     - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R config $DEPLOYPATH
     

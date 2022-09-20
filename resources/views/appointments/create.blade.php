@@ -15,7 +15,7 @@
   <div class="card-body">
       @if($errors->any())
           <div class="text-center text-muted mb-4">
-              <small>Oops ! Se encontraron un errorres.</small>
+              <small>Oops ! Se encontraron un errorres..</small>
           </div>
           <div class="alert alert-danger" role="alert">
               @foreach($errors->all() as $error)
