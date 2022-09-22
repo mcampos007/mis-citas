@@ -35,6 +35,7 @@ class CreateAppointmentsTable extends Migration
             $table->time('scheduled_time');
 
             $table->string('type');
+
             
             $table->timestamps();
         });

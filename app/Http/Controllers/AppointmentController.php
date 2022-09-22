@@ -5,12 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Specialty;
 use App\Appointment;
+use App\CancelledAppointment;
 use Carbon\Carbon;
 use App\Interfaces\ScheduleServiceInterface;
 use Validator;
 
 class AppointmentController extends Controller
 {
+    //Lista de turnos
+    public function index()
+    {
+        // Patient
+        // doctor
+        // Administrador
+
+        $pendingAppointments = Appointment::where('status','Reservada')
+            ->where('patient_id',auth()->id())
+            ->paginate(10);
+        $confirmedAppointments = Appointment::where('status','Confirmada')
+            ->where('patient_id',auth()->id())
+            ->paginate(10);
+        $oldAppointments = Appointment::where('patient_id',auth()->id())
+            ->whereIn('status',['Atendida','Cancelada'])
+            ->paginate(10);
+        return view('appointments.index', compact('pendingAppointments','oldAppointments','confirmedAppointments'));
+    }
+
+    // Mostrar detalles de un turno
+    public function show(Appointment $appointment)
+    {
+        return view('appointments.show', compact('appointment'));
+    }
     //Creacion de un turno
     public function create(ScheduleServiceInterface $scheduleService){
         $specialties = Specialty::all(); 
@@ -33,7 +58,7 @@ class AppointmentController extends Controller
 
         return view('appointments.create', compact('specialties','doctors', 'intervals'));
     }
-
+    //REgistro de un turnos
     public function store(Request $request, ScheduleServiceInterface $scheduleService)
     {
      // dd($request->interval);
@@ -89,4 +114,34 @@ class AppointmentController extends Controller
       $notification = "El turno se ha registrado correctamente.";
       return back()->with(compact('notification'));
     }
+
+    //Mostrar formulario de cancelacion
+    public function showCancelForm(Appointment $appointment)
+    {
+        if ($appointment->status == "Confirmada ")
+            return view('appointments.cancel', compact('appointment'));
+
+        return redirect('/appointments');
+    }
+
+    //Cancelacion de un turno
+    public function postCancel(Appointment $appointment, Request $request)
+    {
+       //dd($appointment);
+        if($request->has('justification'))
+        {
+            $cancellation = new CancelledAppointment();
+            $cancellation->justification = $request->input('justification');
+            $cancellation->cancelled_by = auth()->id();
+            $appointment->cancellation()->save($cancellation);   
+        }
+        
+        $appointment->status = 'Cancelada';
+        $appointment->save();
+
+        $notification = 'El turno se ha cancelado correctamente.';
+        return appointment('/appointments')->with(compact('notification'));
+    }
+
+        
 }
