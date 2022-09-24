@@ -16,10 +16,25 @@
         <strong>{{ session('notification') }}</strong> 
     </div>
     @endif  
-  
-    <p>Estas a punto de cancelar el Turno reservado con el medico 
-      <strong>{{ $appointment->doctor->name}} (especialidad) {{$appointment->specialty->name }} </strong> 
-      para el día {{ $appointment->scheduled_date }}
+    @if($role == 'patient')
+      <p>Estas a punto de cancelar el Turno reservado con el medico 
+        <strong>{{ $appointment->doctor->name}} (especialidad) {{$appointment->specialty->name }} </strong> 
+        para el día {{ $appointment->scheduled_date }}
+      </p>
+    @endif
+    @if($role == 'admin')
+      <p>Estas a punto de cancelar el Turno reservado por el paciente {{ $appointment->patient->name}} para ser tendido por el médico 
+        <strong>{{ $appointment->doctor->name}} (especialidad) {{$appointment->specialty->name }} </strong> 
+        para el día {{ $appointment->scheduled_date }} (hora {{ $appointment->scheduled_time_12}})
+      </p>
+    @endif
+    @if($role == 'doctor')
+      <p>Estas a punto de cancelar el Turno reservado para el paciente
+        <strong>{{ $appointment->patient->name}} (especialidad) {{$appointment->specialty->name }} </strong> 
+        para el día {{ $appointment->scheduled_date }} hora: {{ $appointment->scheduled_time_12 }}
+      </p>
+    @endif
+    
     <form action=" {{ url('/appointments/'.$appointment->id.'/cancel')}}" method="POST">
       @csrf
       <div class="form-group">

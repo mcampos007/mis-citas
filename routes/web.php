@@ -3,7 +3,7 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function (){
     Route::get('/appointments/{appointment}', 'AppointmentController@show');
     Route::get('/appointments/{appointment}/cancel', 'AppointmentController@showCancelForm');
     Route::post('/appointments/{appointment}/cancel', 'AppointmentController@postCancel');
+    Route::post('/appointments/{appointment}/confirm', 'AppointmentController@postConfirm');
+
 
     //Json
     Route::get('/specialties/{specialty}/doctors', 'Api\SpecialtyController@doctors');

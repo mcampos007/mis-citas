@@ -15,11 +15,20 @@ class AppointmentController extends Controller
     //Lista de turnos
     public function index()
     {
+        $role = auth()->user()->role;
+        if ($role=='admin')
+        {
+            $pendingAppointments = Appointment::where('status','Reservada')
+            ->paginate(10);
+        $confirmedAppointments = Appointment::where('status','Confirmada')
+            ->paginate(10);
+        $oldAppointments = Appointment::whereIn('status',['Atendida','Cancelada'])
+            ->paginate(10);    
+        }
         // Patient
-        // doctor
-        // Administrador
-
-        $pendingAppointments = Appointment::where('status','Reservada')
+        elseif ($role == 'patient')
+        {
+            $pendingAppointments = Appointment::where('status','Reservada')
             ->where('patient_id',auth()->id())
             ->paginate(10);
         $confirmedAppointments = Appointment::where('status','Confirmada')
@@ -27,14 +36,34 @@ class AppointmentController extends Controller
             ->paginate(10);
         $oldAppointments = Appointment::where('patient_id',auth()->id())
             ->whereIn('status',['Atendida','Cancelada'])
+            ->paginate(10);    
+        }elseif ($role='doctor') {
+            $pendingAppointments = Appointment::where('status','Reservada')
+            ->where('doctor_id',auth()->id())
             ->paginate(10);
-        return view('appointments.index', compact('pendingAppointments','oldAppointments','confirmedAppointments'));
+        $confirmedAppointments = Appointment::where('status','Confirmada')
+            ->where('doctor_id',auth()->id())
+            ->paginate(10);
+        $oldAppointments = Appointment::where('doctor_id',auth()->id())
+            ->whereIn('status',['Atendida','Cancelada'])
+            ->paginate(10);
+        }else
+
+        {
+
+        }
+        // doctor
+        // Administrador
+
+      // dd($pendingAppointments);
+        return view('appointments.index', compact('pendingAppointments','oldAppointments','confirmedAppointments','role'));
     }
 
     // Mostrar detalles de un turno
     public function show(Appointment $appointment)
     {
-        return view('appointments.show', compact('appointment'));
+        $role = auth()->user()->role;
+        return view('appointments.show', compact('appointment','role'));
     }
     //Creacion de un turno
     public function create(ScheduleServiceInterface $scheduleService){
@@ -118,8 +147,12 @@ class AppointmentController extends Controller
     //Mostrar formulario de cancelacion
     public function showCancelForm(Appointment $appointment)
     {
-        if ($appointment->status == "Confirmada ")
-            return view('appointments.cancel', compact('appointment'));
+        if ($appointment->status == "Confirmada")
+        {
+            $role = auth()->user()->role;
+            //dd($role);
+            return view('appointments.cancel', compact('appointment', 'role'));
+        }
 
         return redirect('/appointments');
     }
@@ -132,7 +165,7 @@ class AppointmentController extends Controller
         {
             $cancellation = new CancelledAppointment();
             $cancellation->justification = $request->input('justification');
-            $cancellation->cancelled_by = auth()->id();
+            $cancellation->cancelled_by_id = auth()->id();
             $appointment->cancellation()->save($cancellation);   
         }
         
@@ -140,7 +173,18 @@ class AppointmentController extends Controller
         $appointment->save();
 
         $notification = 'El turno se ha cancelado correctamente.';
-        return appointment('/appointments')->with(compact('notification'));
+        return redirect('/appointments')->with(compact('notification'));
+    }
+    //Confirmación de un turno
+    public function postConfirm(Appointment $appointment)
+    {
+
+        
+        $appointment->status = 'Confirmada';
+        $appointment->save();
+
+        $notification = 'El turno se ha confirmado correctamente.';
+        return redirect('/appointments')->with(compact('notification'));
     }
 
         
