@@ -50,6 +50,14 @@ Route::middleware('auth')->group(function (){
     //Json
     Route::get('/specialties/{specialty}/doctors', 'Api\SpecialtyController@doctors');
     Route::get('/schedule/hours', 'Api\ScheduleController@hours');
+
+    //Menu contextual
+    Route::get('/perfil', 'perfilController@index');                //Listado de Perfiles
+    Route::get('/perfil/{id}/edit', 'perfilController@edit');       //Visualizar el Perfil
+    Route::post('/perfil', 'perfilController@store');               //Actualizar los datos del Perfil
+    Route::get('/perfil/configuracion', 'perfilController@config'); //Configuracion Gral del Sistema
+    Route::get('/perfil/manual', 'perfilController@manual'); //Manual Gral del Sistema
+
 });
 
 
