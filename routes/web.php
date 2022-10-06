@@ -10,6 +10,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/presentation','HomeController@presentation');
+Route::get('/privacidad','HomeController@privacidad');
 
 Route::middleware(['auth', 'admin'])->namespace('Admin')->group(function(){
     //Specialty

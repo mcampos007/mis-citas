@@ -11,6 +11,9 @@
             <a href="https://www.infocam.com.ar" class="nav-link" target="_blank">Powered By InfoCam</a>
           </li>
           <li class="nav-item">
+            <a href="{{ url('privacidad')}}" class="nav-link" target="_blank">Privacidad</a>
+          </li>
+          <li class="nav-item">
             <a href="{{ url('presentation')}}" class="nav-link" target="_blank">A cerca de</a>
           </li>
         </ul>

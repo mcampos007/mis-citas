@@ -10,6 +10,6 @@
 </li>
 <li class="nav-item">
   <a class="nav-link" href="{{ url('/patients')}}">
-    <i class="ni ni-satisfied  text-info"></i> Pacientes
+    <i class="ni ni-satisfied  text-info"></i> Mis Pacientes
   </a>
 </li>

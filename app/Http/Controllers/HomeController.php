@@ -30,4 +30,9 @@ class HomeController extends Controller
     {   
     return view('presentation');
     }
+
+    public function privacidad()
+    {   
+    return view('privacidad');
+    }
 }
