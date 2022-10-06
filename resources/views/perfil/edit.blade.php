@@ -81,7 +81,11 @@
       <div class="row">
         <div class="col-md-1">
           <div class="avatar avatar-sm rounded-circle">
-            <img alt="Seleccione un archivo si desea cambiar su foto de Perfil" src="{{ asset('img/theme/fotoperfil_'.auth()->user()->id.'.png')}}">
+            @if (auth()->user()->avatar !== 'noimage')
+              <img alt="Seleccione un archivo si desea cambiar su foto de Perfil" src="{{ asset('img/theme/'.auth()->user()->avatar)}}">
+            @else
+              <img alt="Image placeholder" src="{{ asset('img/theme/avatar.jpg')}}">
+            @endif
           </div>
         </div>
         <div class="col-md-3">

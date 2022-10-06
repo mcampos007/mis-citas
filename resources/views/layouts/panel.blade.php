@@ -48,7 +48,7 @@
           <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="{{ asset('img/theme/mifoto.png')}}">
+                <img alt="Image placeholder" src="{{ asset('img/theme/'.auth()->user()->avatar)}}">
               </span>
             </div>
           </a>
@@ -102,7 +102,11 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="{{ asset('img/theme/fotoperfil_'.auth()->user()->id.'.png')}}">
+                  @if (auth()->user()->avatar !== 'noimage')
+                    <img alt="Image placeholder" src="{{ asset('img/theme/'.auth()->user()->avatar)}}">
+                  @else
+                    <img alt="Image placeholder" src="{{ asset('img/theme/avatar.jpg')}}">
+                  @endif
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold">{{ auth()->user()->name }}</span>
