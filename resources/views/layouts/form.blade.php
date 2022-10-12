@@ -49,7 +49,7 @@
           <!-- Navbar items -->
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link nav-link-icon" href="{{ route('register')}}">
+              <a class="nav-link nav-link-icon" href="{{ url('/aceptaprivacidad')}}">
                 <i class="ni ni-circle-08"></i>
                 <span class="nav-link-inner--text">Registro</span>
               </a>
@@ -71,7 +71,7 @@
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
               <h1 class="text-white">
-                @yield('title', 'Welcome!')
+                @yield('title', 'Bienvenido!')
               </h1>
               <p class="text-lead text-light">
                 @yield('subtitle')

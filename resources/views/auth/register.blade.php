@@ -50,6 +50,23 @@
                     <input class="form-control" placeholder="Confirmar Contraseña" type="password" name="password_confirmation" required>
                   </div>
                 </div>
+                <div class="row mt-3">
+                  <div class="col-8">
+                    <div class="custom-control custom-control-alternative custom-checkbox">
+                      <input name="polipriv" class="custom-control-input" id="polipriv" type="checkbox" 
+                        @if(isset($polipriv))
+                          {{'checked'}}
+                        @endif
+                      required>
+                      <label class="custom-control-label" for="polipriv">
+                        <span class="text-muted">
+                          <a href="{{ url("/aceptaprivacidad")}}">
+                          Política de Privacidad
+                        </span>
+                      </label>
+                    </div>  
+                  </div>  
+                </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary mt-4">Confirmar Registro</button>
                 </div>

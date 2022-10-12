@@ -19,7 +19,7 @@
                 @endif              
               <form role="form" method="POST" action="{{ route('login') }}">
                 @csrf
-                
+
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
@@ -58,12 +58,13 @@
               </form>
             </div>
           </div>
-          <div class="row mt-3">
+
+          <div class="row mt-3">    
             <div class="col-6">
               <a href="{{ route('password.request') }}" class="text-light">
                 <small>¿Olvidaste tu contraseña?</small></a>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-6text-right">
               <a href="{{ route('register') }}" class="text-light">
                 <small>¿Aún no te has registrado?</small></a>
             </div>
@@ -71,6 +72,4 @@
         </div>
       </div>
     </div>
-
-
 @endsection
