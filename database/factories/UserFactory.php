@@ -24,7 +24,9 @@ $factory->define(App\User::class, function (Faker $faker) {
         'dni' => $faker->randomNumber(8,$strict = true),
         'address' => $faker->address,
         'phone' => $faker->e164PhoneNumber,
-        'role' => $faker->randomElement($array = array ('patient','doctor'))
+        'role' => $faker->randomElement($array = array ('patient','doctor')),
+        'last_name' => $faker->lastName,
+        'confirmed' => '1',
          // 'b
     ];
 });

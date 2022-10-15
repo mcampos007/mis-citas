@@ -21,7 +21,10 @@ class UserTableSeeder extends Seeder
             'dni' => '',
             'address' => '',
             'phone' => '',
-            'role' => 'admin'
+            'role' => 'admin',
+            'sexo' => 'Varon',
+            'last_name' => 'Campos',
+            'confirmed' => '1'
         ]);
         User::create([
             'name' => 'paciente',
@@ -31,7 +34,9 @@ class UserTableSeeder extends Seeder
             'dni' => '',
             'address' => '',
             'phone' => '',
-            'role' => 'patient'
+            'role' => 'patient',
+            'last_name' => 'Apellido',
+            'confirmed' => '1',
         ]);
         User::create([
             'name' => 'medico',
@@ -41,7 +46,9 @@ class UserTableSeeder extends Seeder
             'dni' => '',
             'address' => '',
             'phone' => '',
-            'role' => 'doctor'
+            'role' => 'doctor',
+            'last_name' => 'Apellido',
+            'confirmed' => '1',
         ]);
         factory(User::class, 50)->states('patient')->create();
 

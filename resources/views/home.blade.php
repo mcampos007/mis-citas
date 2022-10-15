@@ -14,8 +14,19 @@
                         {{ session('status') }}
                     </div>
                 @endif
-
-                Bienvenido!
+                @if( auth()->user()->confirmed == "1" )
+                  <span class="h2">  Bienvenido!</span>
+                @else
+                  @if(isset($notification))
+                    <span class="h2">  {{ $notification }}</span>
+                  @else
+                    <form action="{{url("/register/resendmail")}}" method="POST">
+                      @csrf
+                      <span class="h2">Tu e-mail, aún no a sido validado</span>
+                      <button type="submit" class="btn bg-gradient-info">Enviar Nuevamente el mail de Verificación</button>
+                    </form>
+                  @endif
+                @endif
             </div>
         </div>
     </div>

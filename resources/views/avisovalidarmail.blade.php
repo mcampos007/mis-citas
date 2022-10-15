@@ -52,9 +52,7 @@
               </span>
             </div>
           </a>
-          @if(auth()->user()->confirmed == "1")
-            @include('includes.panel.dropdown_menu')
-          @endif
+          @include('includes.panel.dropdown_menu')
         </li>
       </ul>
 
@@ -76,9 +74,7 @@
             </div>
           </div>
         </div>
-        @if(auth()->user()->confirmed=="1")
         @include('includes.panel.menu')
-        @endif
       </div>
     </div>
   </nav>
@@ -117,9 +113,7 @@
                 </div>
               </div>
             </a>
-          @if( auth()->user()->confirmed == "1" )
           @include('includes.panel.dropdown_menu')
-          @endif
           </li>
         </ul>
 

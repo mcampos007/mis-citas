@@ -18,12 +18,42 @@
                 @endif
               <form role="form" method="POST" action="{{ route('register') }}">
                 @csrf 
-                <div class="form-group">
-                  <div class="input-group input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                <div class="row mt-3">
+                  <div class="col-10">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="polipriv"
+                        @if(isset($polipriv))
+                            {{'checked'}}
+                          @endif required />
+                        <label class="form-check-label" for="flexCheckDefault"><a href="{{ url("/aceptaprivacidad")}}" >
+                            He leído y acepto la política de privacidad</a></label>
+
+                      </div>                     
+                    </div>  
+                  </div>  
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Nombre" type="text" name="name" value="{{ old('name') }}" required >
+                      </div>
                     </div>
-                    <input class="form-control" placeholder="Nombre" type="text" name="name" value="{{ old('name') }}" required autofocus>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Apellido" type="text" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -32,6 +62,44 @@
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
                     <input class="form-control" placeholder="Email" type="email" name="email" value="{{ old('email') }}" required>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">       
+                      <select name="tipodoc" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
+                          <option value="1"> DNI</option>
+                          <option value="2"> CUIT</option>
+                          <option value="2"> CUIL</option>
+                          <option value="2"> PASAPORTE</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span> 
+                        </div>
+                        <input class="form-control" placeholder="Numero" type="text" name="dni" value="{{ old('dni') }}" required >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <label for="sexo">Sexo</label>
+                <div class="form-group">       
+                  <div class="form-check-inline">
+                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault1" value="Varon">
+                    <label class="form-check-label" for="flexRadioDefault1">Varón</label>
+                  </div>
+                  <div class="form-check-inline">
+                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault2" value="Mujer">
+                    <label class="form-check-label" for="flexRadioDefault2">Mujer</label>
+                  </div>
+                  <div class="form-check-inline">
+                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault3" value="No Definido">
+                    <label class="form-check-label" for="flexRadioDefault3">No definido</label>
                   </div>
                 </div>
                 <div class="form-group">
@@ -50,23 +118,7 @@
                     <input class="form-control" placeholder="Confirmar Contraseña" type="password" name="password_confirmation" required>
                   </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-8">
-                    <div class="custom-control custom-control-alternative custom-checkbox">
-                      <input name="polipriv" class="custom-control-input" id="polipriv" type="checkbox" 
-                        @if(isset($polipriv))
-                          {{'checked'}}
-                        @endif
-                      required>
-                      <label class="custom-control-label" for="polipriv">
-                        <span class="text-muted">
-                          <a href="{{ url("/aceptaprivacidad")}}">
-                          Política de Privacidad
-                        </span>
-                      </label>
-                    </div>  
-                  </div>  
-                </div>
+                
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary mt-4">Confirmar Registro</button>
                 </div>

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\ConfirmacionRegistro;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -22,6 +24,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    public $emailusuario;
 
     /**
      * Where to redirect users after registration.
@@ -53,6 +56,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'last_name' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -64,13 +68,42 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-        return User::create([
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        // Output: 54esmdr0qf
+        $confirmation_code = substr(str_shuffle($permitted_chars), 0, 10);
+        $data['confirmation_code'] =  $confirmation_code;
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'role' => 'patient',
             'password' => Hash::make($data['password']),
             'polipriv' =>'1',
+            'sexo' => $data['sexo'],
+            'last_name' => $data['last_name'],
+            'confirmation_code' => $confirmation_code,
         ]);
+
+        //
+        $data["mail_message"] = $data["confirmation_code"];
+        $data["nombreusuario"] = $user->name;
+        $data["txtmensaje"] = $user->confirmation_code; 
+        $this->emailusuario = $user->email;
+
+        Mail::send('emails.confirmation_code', $data, function($message)
+        {
+            $message
+                ->to($this->emailusuario)
+                ->from('thorolf@infocam.com.ar')
+                ->subject('Verificación de Cuenta de Correo');
+        });
+
+        return $user;
+
+        //$mailto = $user->email;
+        //message)"ventasonline@grupocisterna.com.ar";
+        //mail::to($mailto)->send(new ConfirmacionRegistro($user));
+        
+        
     }
+    
 }

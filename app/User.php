@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'dni', 'address', 'phone', 'role','avatar', 'polipriv'
+        'name', 'email', 'password', 'dni', 'address', 'phone', 'role','avatar', 'polipriv', 'last_name','confirmation_code'
     ];
 
 
@@ -53,5 +53,11 @@ class User extends Authenticatable
     public function scopeDoctors($query)
     {
         return $query->where('role','doctor');
+    }
+
+    // N Usuario -> tipodoc -
+    public function tipodoc()
+    {
+        return $this->belongsTo(Tipodoc::class);
     }
 }

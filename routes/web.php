@@ -6,6 +6,8 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/register/verify/{code}', 'GuestController@verify');
+Route::post('/register/resendmail', 'GuestController@reenviarmail');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
