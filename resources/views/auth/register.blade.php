@@ -18,22 +18,6 @@
                 @endif
               <form role="form" method="POST" action="{{ route('register') }}">
                 @csrf 
-                <div class="row mt-3">
-                  <div class="col-10">
-                    <div class="form-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="polipriv"
-                        @if(isset($polipriv))
-                            {{'checked'}}
-                          @endif required />
-                        <label class="form-check-label" for="flexCheckDefault"><a href="{{ url("/aceptaprivacidad")}}" >
-                            He leído y acepto la política de privacidad</a></label>
-
-                      </div>                     
-                    </div>  
-                  </div>  
-                </div>
-
                 <div class="row">
                   <div class="col-6">
                     <div class="form-group">
@@ -101,6 +85,20 @@
                     <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault3" value="No Definido">
                     <label class="form-check-label" for="flexRadioDefault3">No definido</label>
                   </div>
+                  <div class="form-group">
+                      <label for="fecha_nac">Fecha de Nacimiento</label>
+                       <div class="input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                          </div>
+                          <input class="form-control datepicker" placeholder="Selecionar fecha" 
+                          id="date" name="fecha_nac" type="text" 
+                          value="{{old('fecha_nac',  date('Y-m-d')) }}" 
+                          data-date-format="yyyy-mm-dd"
+                          data-date-start-date="" 
+                          data-date-end-date="{{ date('Y-m-d') }}">
+                      </div>
+                  </div>                  
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-alternative">
@@ -118,7 +116,21 @@
                     <input class="form-control" placeholder="Confirmar Contraseña" type="password" name="password_confirmation" required>
                   </div>
                 </div>
-                
+                <div class="row mt-3">
+                  <div class="col-10">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="polipriv"
+                        @if(isset($polipriv))
+                            {{'checked'}}
+                          @endif required />
+                        <label class="form-check-label" for="flexCheckDefault"><a href="{{ url("/aceptaprivacidad")}}" >
+                            Declaro que he leído y acepto la política de privacidad</a></label>
+
+                      </div>                     
+                    </div>  
+                  </div>  
+                </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary mt-4">Confirmar Registro</button>
                 </div>
@@ -128,4 +140,11 @@
         </div>
       </div>
     </div>
+@endsection
+
+@section('scripts')
+
+<script src=" {{ asset('/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+
+
 @endsection

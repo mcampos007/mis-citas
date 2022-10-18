@@ -8,7 +8,7 @@ class Tipodoc extends Model
 {
     //
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     function users()

@@ -21,7 +21,7 @@
                   <div class="card-header display-4">POLITICA DE PRIVACIDAD</div>
                 </div>
                 <div class="form-group">
-                  <label for="exampleFormControlTextarea3">Leer y Acpetar si está de acuerdo</label>
+                  <label for="exampleFormControlTextarea3"></label>
                   <textarea class="form-control" id="exampleFormControlTextarea3" rows="14">
                     Declaración de Privacidad y Confidencialidad de INFOCAM SAS
                     En INFOCAM SAS creemos que la protección de los datos personales y de tu empresa es vital para nuestro desarrollo y el suyo. Nos comprometemos a hacer un uso responsable de tus datos personales y los de tu empresa. De este modo, no sólo protegemos la privacidad de quienes nos confiaron sus datos, sino que les permitimos operar con seguridad y confianza.

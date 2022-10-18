@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <meta name="author" content="Creative Tim">
+  <meta name="description" content="Sistema de Reserva de Turnos">
+  <meta name="author" content="InfoCam SAS">
   <title>Sistema de Reserva de Turnos | {{ config('app.name') }}</title>
   <!-- Favicon -->
   <link href="{{ asset('img/brand/favicon.png')}}" rel="icon" type="image/png">
