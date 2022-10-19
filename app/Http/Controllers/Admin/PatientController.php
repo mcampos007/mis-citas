@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\User;
-
+use App\Appointment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -100,14 +100,17 @@ class PatientController extends Controller
             'email' => 'required|email',
             'dni' => 'nullable|digits:8',
             'address' => 'nullable|min:5',
-            'phone' => 'nullable|min:6'
+            'phone' => 'nullable|min:6',
+            'last_name' => 'required|min:3',
+            'fecha_nac' => 'required',
+            'sexo' => 'required'
         ];
         //$this->validate($request, $rules, $messages);
         $this->validate($request, $rules);
-
+        //dd($request);
         $user = User::patients()->findOrFail($id);
         
-        $data = $request->only('name', 'email', 'dni', 'address', 'phone') ;
+        $data = $request->only('name', 'email', 'dni', 'address', 'phone','sexo', 'last_name', 'fecha_nac') ;
         $password = $request->input('password');
         if ($password)
             $data += [ 'password' =>bcrypt($password)];
@@ -129,13 +132,25 @@ class PatientController extends Controller
      */
     public function destroy(User $patient)
     {
-        //
-        $patietName = $patient->name;
+        //VErificar que no tenga citas
+        $patientName = $patient->name;
+        $turnos = Appointment::where('patient_id','$patient->id')->get();
+        //dd($turnos->toArray());
+        if (count($turnos)== 0)
+        {
+            
 
-        $patient->delete();
+            $patient->delete();
 
-        $notification = "El paciente $patietName se ha eliminado correctamente.";
+            $notification = "El paciente $patientName se ha eliminado correctamente.";
 
-        return redirect('/patients')->with(compact('notification'));
+            
+        }else{
+
+            // No se puede eliminar 
+            $notification = "El paciente $patientName tiene turnos, no se puede eliminar.";
+        }
+        return redirect('/patients')->with(compact('notification'));   
     }
+        
 }

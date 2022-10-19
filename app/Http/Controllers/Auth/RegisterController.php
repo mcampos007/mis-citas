@@ -83,6 +83,7 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'confirmation_code' => $confirmation_code,
             'fecha_nac' => $data['fecha_nac'],
+            'dni' => $data['dni'],
         ]);
 
         //

@@ -26,6 +26,7 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
           <th scope="col">E-mail</th>
           <th scope="col">Dni</th>
           <th scope="col">Opciones</th>
@@ -36,6 +37,9 @@
           <tr>
             <th scope="row">
               {{ $patient->name}}
+            </th>
+            <th scope="row">
+              {{ $patient->last_name}}
             </th>
             <td>
               {{ $patient->email}}

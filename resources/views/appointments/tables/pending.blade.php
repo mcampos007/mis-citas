@@ -55,7 +55,6 @@
             <form action=" {{ url('/appointments/'.$appointment->id.'/confirm')}}" method="POST" class="d-inline-block">
               @csrf    
               <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Confirmar Turno"><i class="ni ni-check-bold"></i></button>
-
             </form>
               <a  class="btn btn-sm btn-danger"  title="Cancelar Turno"
               href=" {{ url('/appointments/'.$appointment->id.'/cancel') }}">

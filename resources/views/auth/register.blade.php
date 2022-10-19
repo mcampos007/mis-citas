@@ -71,21 +71,27 @@
                     </div>
                   </div>
                 </div>
-                <label for="sexo">Sexo</label>
-                <div class="form-group">       
-                  <div class="form-check-inline">
-                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault1" value="Varon">
-                    <label class="form-check-label" for="flexRadioDefault1">Varón</label>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="sexo">Sexo </label>
+                        <select id="sexo" class="form-control" name="sexo">
+                          <option value ="Varon" >
+                            Varon
+                          </option>
+                          <option value ="Mujer" >
+                            Mujer
+                          </option>
+                          <option value ="No definido" >
+                            No definido
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-check-inline">
-                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault2" value="Mujer">
-                    <label class="form-check-label" for="flexRadioDefault2">Mujer</label>
-                  </div>
-                  <div class="form-check-inline">
-                    <input type="radio" class="form-check-input" name="sexo" id="flexRadioDefault3" value="No Definido">
-                    <label class="form-check-label" for="flexRadioDefault3">No definido</label>
-                  </div>
-                  <div class="form-group">
+                  <div class="col-6">
+                    <div class="form-group">
                       <label for="fecha_nac">Fecha de Nacimiento</label>
                        <div class="input-group">
                           <div class="input-group-prepend">
@@ -93,29 +99,37 @@
                           </div>
                           <input class="form-control datepicker" placeholder="Selecionar fecha" 
                           id="date" name="fecha_nac" type="text" 
-                          value="{{old('fecha_nac',  date('Y-m-d')) }}" 
+                          value="{{old('fecha_nac')}}" 
                           data-date-format="yyyy-mm-dd"
                           data-date-start-date="" 
                           data-date-end-date="{{ date('Y-m-d') }}">
                       </div>
-                  </div>                  
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Contraseña" type="password" name="password" required>
+                  </div>  
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Contraseña" type="password" name="password" required>
+                      </div>
                     </div>
-                    <input class="form-control" placeholder="Confirmar Contraseña" type="password" name="password_confirmation" required>
+                  </div>
+                  <div class="col-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Confirmar Contraseña" type="password" name="password_confirmation" required>
+                    </div>
+                  </div>                    
                   </div>
                 </div>
+
                 <div class="row mt-3">
                   <div class="col-10">
                     <div class="form-group">

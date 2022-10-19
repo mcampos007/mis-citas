@@ -6,12 +6,32 @@ use Illuminate\Http\Request;
 use App\Specialty;
 use App\Appointment;
 use App\CancelledAppointment;
+use App\User;
 use Carbon\Carbon;
 use App\Interfaces\ScheduleServiceInterface;
 use Validator;
-
+use Mail;
 class AppointmentController extends Controller
 {
+    public $emailusuario;
+    public $from;
+    public $subject;
+
+    // Funcion para envío de mail
+    private function envio_mail($vista, $to, $from, $subject, $datos)
+    {
+        $this->emailusuario = $to;
+        $this->from =$from;
+        $this->subject = $subject;
+        Mail::send($vista, $datos, function($message)
+        {
+            $message
+                ->to($this->emailusuario)
+                ->from($this->from)
+                ->subject($this->subject);
+        });
+
+    }
     //Lista de turnos
     public function index()
     {
@@ -20,9 +40,9 @@ class AppointmentController extends Controller
         {
             $pendingAppointments = Appointment::where('status','Reservada')
             ->paginate(10);
-        $confirmedAppointments = Appointment::where('status','Confirmada')
+            $confirmedAppointments = Appointment::where('status','Confirmada')
             ->paginate(10);
-        $oldAppointments = Appointment::whereIn('status',['Atendida','Cancelada'])
+            $oldAppointments = Appointment::whereIn('status',['Atendida','Cancelada'])
             ->paginate(10);    
         }
         // Patient
@@ -31,10 +51,10 @@ class AppointmentController extends Controller
             $pendingAppointments = Appointment::where('status','Reservada')
             ->where('patient_id',auth()->id())
             ->paginate(10);
-        $confirmedAppointments = Appointment::where('status','Confirmada')
+            $confirmedAppointments = Appointment::where('status','Confirmada')
             ->where('patient_id',auth()->id())
             ->paginate(10);
-        $oldAppointments = Appointment::where('patient_id',auth()->id())
+            $oldAppointments = Appointment::where('patient_id',auth()->id())
             ->whereIn('status',['Atendida','Cancelada'])
             ->paginate(10);    
         }elseif ($role='doctor') {
@@ -140,8 +160,44 @@ class AppointmentController extends Controller
       //dd($data);
       Appointment::create($data);
 
-      $notification = "El turno se ha registrado correctamente.";
-      return back()->with(compact('notification'));
+        $vista = "emails.turno_reservado";
+        $from = "thorolf@infocam.com.ar";
+        $subject = "Aviso de Turno Reservado";
+        $datamail =[];
+        $paciente = User::findOrfail(auth()->id());
+        $doctor = User::findOrfail($data['doctor_id']);
+        $datamail["paciente"] = $paciente->name;
+        $datamail['mailto'] = $paciente->email; 
+        $datamail["doctor"] = $doctor->name;
+        $datamail["fecha_turno"] = $data['scheduled_date'];
+        $datamail["hora_turno"] = $data['scheduled_time']; 
+        //$this->emailusuario = $datamail['mailto'];
+        $to = $datamail['mailto'];
+        $this->envio_mail($vista, $to, $from, $subject, $datamail);
+
+      //Enviar mail con la confirmacion de turno
+       //  $datamail=[];
+       //  $paciente = User::findOrfail(auth()->id());
+       //  $doctor = User::findOrfail($data['doctor_id']);
+       //  $datamail["paciente"] = $paciente->name;
+       //  $datamail['mailto'] = $paciente->email; 
+       //  $datamail["doctor"] = $doctor->name;
+       //  $datamail["fecha_turno"] = $data['scheduled_date'];
+       //  $datamail["hora_turno"] = $data['scheduled_time']; 
+       //  $this->emailusuario = $datamail['mailto'];
+       // // dd($datamail);
+       //  Mail::send('emails.turno_reservado', $datamail, function($message)
+       //  {
+       //      $message
+       //          ->to($this->emailusuario)
+       //          ->from('thorolf@infocam.com.ar')
+       //          ->subject('Aviso de Turno Reservado');
+       //  });
+      ///
+
+      $notification = "El turno se ha registrado correctamente. en breve recibirá un mail con la notificación";
+      //return back()->with(compact('notification'));
+      return redirect('/appointments')->with(compact('notification'));
     }
 
     //Mostrar formulario de cancelacion
@@ -171,18 +227,49 @@ class AppointmentController extends Controller
         
         $appointment->status = 'Cancelada';
         $appointment->save();
+        
+        $vista = "emails.turno_cancelado";
+        $from = "thorolf@infocam.com.ar";
+        $subject = "Aviso de Turno Cancelado";
+        $datamail =[];
+        $paciente = User::findOrfail($appointment->patient_id);
+        $doctor = User::findOrfail($appointment->doctor_id);
+        $datamail["paciente"] = $paciente->name;
+        $datamail['mailto'] = $paciente->email; 
+        $datamail["doctor"] = $doctor->name;
+        $datamail["fecha_turno"] = $appointment->scheduled_date;
+        $datamail["hora_turno"] = $appointment->scheduled_time; 
+        //$this->emailusuario = $datamail['mailto'];
+        $to = $datamail['mailto'];
+        $this->envio_mail($vista, $to, $from, $subject, $datamail);
+
 
         $notification = 'El turno se ha cancelado correctamente.';
         return redirect('/appointments')->with(compact('notification'));
     }
     //Confirmación de un turno
     public function postConfirm(Appointment $appointment)
-    {
-
+    {        
         
         $appointment->status = 'Confirmada';
         $appointment->save();
 
+        //Envío de mail de confirmacion
+        $vista = "emails.turno_confirmado";
+        $to = $appointment->patient->email;
+        $from = "thorolf@infocam.com.ar";
+        $subject = "Aviso de Turno Confirmado";
+        $datamail =[];
+        $datamail["paciente"] = $appointment->patient->name;
+        $datamail['mailto'] = $appointment->patient->email; 
+        $datamail["doctor"] = $appointment->doctor->name;
+        $datamail["fecha_turno"] = $appointment->scheduled_date;
+        $datamail["hora_turno"] = $appointment->scheduled_time; 
+        //$this->emailusuario = $datamail['mailto'];
+        
+
+        $this->envio_mail($vista, $to, $from, $subject, $datamail);
+        ///
         $notification = 'El turno se ha confirmado correctamente.';
         return redirect('/appointments')->with(compact('notification'));
     }
