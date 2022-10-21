@@ -54,7 +54,7 @@
         <div class="row">
           <div class="col-6">
             <div class="form-group">       
-              <select name="tipodoc" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
+              <select name="tipodoc_id" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
                   <option value="1"> DNI</option>
                   <option value="2"> CUIT</option>
                   <option value="2"> CUIL</option>
@@ -76,7 +76,6 @@
 
         <div class="row">
           <div class="col-6">
-            <div class="col">
               <div class="form-group">
                 <label for="sexo">Sexo </label>
                 <select id="sexo" class="form-control" name="sexo">
@@ -91,7 +90,6 @@
                   </option>
                 </select>
               </div>
-            </div>
           </div>
           <div class="col-6">
             <div class="form-group">

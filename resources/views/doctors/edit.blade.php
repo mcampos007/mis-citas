@@ -54,11 +54,11 @@
               <div class="col-6">
                 <div class="form-group">
                 <label for="tipodoc">Tipo de Documento</label>       
-                  <select name="tipodoc" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
-                      <option value="1"> DNI</option>
-                      <option value="2"> CUIT</option>
-                      <option value="2"> CUIL</option>
-                      <option value="2"> PASAPORTE</option>
+                  <select name="tipodoc_id" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
+                      <option value="1" @if($doctor->tipodoc_id == "1") selected @endif)> DNI</option>
+                      <option value="2" @if($doctor->tipodoc_id == "2") selected @endif> CUIT</option>
+                      <option value="2" @if($doctor->tipodoc_id == "3") selected @endif> CUIL</option>
+                      <option value="2" @if($doctor->tipodoc_id == "4") selected @endif> PASAPORTE</option>
                   </select>
                 </div>                
               </div>
@@ -69,6 +69,40 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-6">
+                  <div class="form-group">
+                    <label for="sexo">Sexo </label>
+                    <select id="sexo" class="form-control" name="sexo">
+                      <option value ="Varon" @if($doctor->sexo=="Varon") selected @endif>
+                        Varon
+                      </option>
+                      <option value ="Mujer" @if($doctor->sexo=="Mujer") selected @endif>
+                        Mujer
+                      </option>
+                      <option value ="No definido" @if($doctor->sexo=="No definido") selected @endif>
+                        No definido
+                      </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="fecha_nac">Fecha de Nacimiento</label>
+                   <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <input class="form-control datepicker" placeholder="Selecionar fecha" 
+                      id="date" name="fecha_nac" type="text" 
+                      value="{{old('fecha_nac',$doctor->fecha_nac)}}" 
+                      data-date-format="yyyy-mm-dd"
+                      data-date-start-date="" 
+                      data-date-end-date="{{ date('Y-m-d') }}">
+                  </div>
+              </div>  
+              </div>
+            </div>            
             <div class="form-row">
               <div class="col-6">
                 <div class="form-group">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Specialty;
+use Mail;
 
 class DoctorController extends Controller
 {
@@ -15,6 +16,9 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $emailusuario;
+
     public function index()
     {
         ////Ver el Scope en el modelo user
@@ -48,7 +52,7 @@ class DoctorController extends Controller
         $rules = [
             'name' => 'required|min:3',
             'email' => 'required|email',
-            'dni' => 'nullable|min:7|max:8', //'nullable|digits:8',
+            'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
             'address' => 'nullable|min:5',
             'phone' => 'nullable|min:6',
             'last_name' => 'required|min:3',
@@ -62,7 +66,7 @@ class DoctorController extends Controller
             'email.required' => 'Se debe registrar un e-mail para el mmédico.',
             'email.email' => 'La direccion de emaill ingresada no es válida.',
             'dni.min' => 'El número de DNI debe tener al menos 7 números.',
-            'dni.max' => 'El número´de DNI No puede tener más de 8 dígitos.',
+            'dni.max' => 'El número´de DNI No puede tener más de 11 dígitos.',
             'address.min' => 'La dirección debe tener al menos 5 caracteres.',
             'phone.min' => 'El número telefonico debe tener al menos 6 dígitos.',
             'last_name.required' => 'Se debe ingresar el apellido',
@@ -72,15 +76,37 @@ class DoctorController extends Controller
         //$this->validate($request, $rules, $messages);
         $this->validate($request, $rules, $messages);
 
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        // Output: 54esmdr0qf
+        $confirmation_code = substr(str_shuffle($permitted_chars), 0, 10);
+
         $user = User::create(
-            $request->only('name', 'email', 'dni', 'address', 'phone','last_name', 'sexo') +
+            $request->only('name', 'email', 'dni', 'address', 'phone','last_name', 'sexo','tipodoc_id') +
             [
                 'role' => 'doctor',
-                'password' => bcrypt($request->input('password'))
+                'password' => bcrypt($request->input('password')),
+                'confirmation_code' => $confirmation_code
             ]
         );
 
         $user->specialties()->attach($request->input('specialties'));
+
+        //Enviar mail para validar
+        $data['confirmation_code'] =  $confirmation_code;
+        $data["mail_message"] = $data["confirmation_code"];
+        $data["nombreusuario"] = $user->name;
+        $data["txtmensaje"] = $user->confirmation_code; 
+        $this->emailusuario = $user->email;
+
+        Mail::send('emails.confirmation_code', $data, function($message)
+        {
+            $message
+                ->to($this->emailusuario)
+                ->from('thorolf@infocam.com.ar')
+                ->subject('Verificación de Cuenta de Correo');
+        });
+
+        ///
 
         $notification = "El médico se ha registrado correctamente.";
         return redirect('/doctors')->with(compact('notification'));
@@ -134,7 +160,7 @@ class DoctorController extends Controller
          $rules = [
             'name' => 'required|min:3',
             'email' => 'required|email',
-            'dni' => 'nullable|digits:8',
+            'dni' => 'nullable|digits:11',
             'address' => 'nullable|min:5',
             'phone' => 'nullable|min:6'
         ];
@@ -143,7 +169,7 @@ class DoctorController extends Controller
 
         $user = User::doctors()->findOrFail($id);
         
-        $data = $request->only('name', 'email', 'dni', 'address', 'phone') ;
+        $data = $request->only('name', 'email', 'dni', 'address', 'phone','tipodoc_id','sexo', 'fecha_nac') ;
         $password = $request->input('password');
         if ($password)
             $data += [ 'password' =>bcrypt($password)];
