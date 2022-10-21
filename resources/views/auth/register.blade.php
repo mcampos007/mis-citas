@@ -25,7 +25,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Nombre" type="text" name="name" value="{{ old('name') }}" required >
+                        <input class="form-control" placeholder="Nombre" type="text" name="name" value="{{ old('name') }}" required autofocus>
                       </div>
                     </div>
                   </div>
@@ -35,7 +35,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Apellido" type="text" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                        <input class="form-control" placeholder="Apellido" type="text" name="last_name" value="{{ old('last_name') }}" required >
                       </div>
                     </div>
                   </div>
@@ -55,8 +55,8 @@
                       <select name="tipodoc" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
                           <option value="1"> DNI</option>
                           <option value="2"> CUIT</option>
-                          <option value="2"> CUIL</option>
-                          <option value="2"> PASAPORTE</option>
+                          <option value="3"> CUIL</option>
+                          <option value="4"> PASAPORTE</option>
                       </select>
                     </div>
                   </div>

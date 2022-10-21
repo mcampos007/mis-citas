@@ -15,7 +15,7 @@ class AddSexoToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('sexo')->default("No Definido");
+            $table->string('sexo')->default("No definido");
         });
     }
 

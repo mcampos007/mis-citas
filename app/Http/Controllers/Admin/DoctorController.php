@@ -50,7 +50,10 @@ class DoctorController extends Controller
             'email' => 'required|email',
             'dni' => 'nullable|min:7|max:8', //'nullable|digits:8',
             'address' => 'nullable|min:5',
-            'phone' => 'nullable|min:6'
+            'phone' => 'nullable|min:6',
+            'last_name' => 'required|min:3',
+            'sexo' => 'required',
+            
         ];
 
         $messages = [
@@ -61,13 +64,16 @@ class DoctorController extends Controller
             'dni.min' => 'El número de DNI debe tener al menos 7 números.',
             'dni.max' => 'El número´de DNI No puede tener más de 8 dígitos.',
             'address.min' => 'La dirección debe tener al menos 5 caracteres.',
-            'phone.min' => 'El número telefonico debe tener al menos 6 dígitos.'
+            'phone.min' => 'El número telefonico debe tener al menos 6 dígitos.',
+            'last_name.required' => 'Se debe ingresar el apellido',
+            'last_name.min' => 'El apellido debe tener al menos tres letras',
+            'sexo' => 'required'
         ];
         //$this->validate($request, $rules, $messages);
         $this->validate($request, $rules, $messages);
 
         $user = User::create(
-            $request->only('name', 'email', 'dni', 'address', 'phone') +
+            $request->only('name', 'email', 'dni', 'address', 'phone','last_name', 'sexo') +
             [
                 'role' => 'doctor',
                 'password' => bcrypt($request->input('password'))

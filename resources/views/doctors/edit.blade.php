@@ -32,30 +32,56 @@
           <form action="{{ url('doctors/'.$doctor->id) }}" method="POST">
             @csrf()
             @method('PUT')
-            <div class="form-group">
-              <label for="name">Nombre del Médico</label>
-              <input type="text" name="name" class="form-control" value="{{ old('name', $doctor->name) }}" required>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="name">Nombre del Médico</label>
+                  <input type="text" name="name" class="form-control" value="{{ old('name', $doctor->name) }}" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="last_name">Apelido del Médico</label>
+                  <input type="text" name="last_name" class="form-control" value="{{ old('last_name', $doctor->last_name) }}" required>
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="name">E-mail</label>
               <input type="text" name="email" class="form-control" value="{{ old('email', $doctor->email) }}">
             </div>
-            <div class="form-group">
-              <label for="name">DNI</label>
-              <input type="text" name="dni" class="form-control" value="{{ old('dni', $doctor->dni) }}">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                <label for="tipodoc">Tipo de Documento</label>       
+                  <select name="tipodoc" id="tipodoc" class="form-control selectpicker" data-style="btn-default" title="Seleccione El tipo de Documento">
+                      <option value="1"> DNI</option>
+                      <option value="2"> CUIT</option>
+                      <option value="2"> CUIL</option>
+                      <option value="2"> PASAPORTE</option>
+                  </select>
+                </div>                
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="name">DNI</label>
+                  <input type="text" name="dni" class="form-control" value="{{ old('dni', $doctor->dni) }}">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="name">Dirección</label>
-              <input type="text" name="address" class="form-control" value="{{ old('address', $doctor->address) }}">
-            </div>
-            <div class="form-group">
-              <label for="name">Teléfono</label>
-              <input type="text" name="phone" class="form-control" value="{{ old('phone', $doctor->phone) }}">
-            </div>
-            <div class="form-group">
-              <label for="password">contraseña</label>
-              <input type="text" name="password" class="form-control" value="">
-              <p>Ingrese un valor, solo si desea modificar la contraseña</p>
+            <div class="form-row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="name">Dirección</label>
+                  <input type="text" name="address" class="form-control" value="{{ old('address', $doctor->address) }}">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="name">Teléfono</label>
+                  <input type="text" name="phone" class="form-control" value="{{ old('phone', $doctor->phone) }}">
+                </div>
+              </div>
             </div>
             <div class="form-group">
                 <label for="specialities">Especialidades</label>
@@ -65,6 +91,12 @@
                   @endforeach
                 </select>
             </div>
+            <div class="form-group">
+              <label for="password">contraseña</label>
+              <input type="text" name="password" class="form-control" value="">
+              <p>Ingrese un valor, solo si desea modificar la contraseña</p>
+            </div>
+            
             <button type="submit" class="btn btn-primary">
               Guardar              
             </button>

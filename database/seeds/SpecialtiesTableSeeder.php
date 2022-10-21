@@ -16,7 +16,7 @@ class SpecialtiesTableSeeder extends Seeder
         //
         $specialties = [
             'Oftalmologia',
-            'Peiatria',
+            'Pediatria',
             'Neurología'
         ];
         foreach ($specialties as $specialtyName) {

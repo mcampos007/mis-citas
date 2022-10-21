@@ -36,39 +36,101 @@
       @csrf()
       {{-- @method('PUT') --}}
       <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="name">Nombre</label>
-              <input type="text" name="name" class="form-control" value="{{ old('name', $usuario->name) }}" required>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" class="form-control" value="{{ old('name', $usuario->name) }}" required>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="last_name">Apellido</label>
+            <div class="input-group input-group-alternative mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+              </div>
+              <input class="form-control" placeholder="Apellido" type="text" name="last_name" value="{{ old('last_name',$usuario->last_name) }}" required >
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="name">E-mail</label>
-              <input type="text" name="email" class="form-control" value="{{ old('email', $usuario->email) }}">
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">E-mail</label>
+        <input type="text" name="email" class="form-control" value="{{ old('email', $usuario->email) }}">
       </div>
       <div class="row">
-        <div class="col-md-2">
-          <div class="form-group">
-            <label for="name">DNI</label>
-            <input type="text" name="dni" class="form-control" value="{{ old('dni', $usuario->dni) }}">
-          </div>    
+        <div class="col-6">
+          <div class="form-group">  
+          <label for="tipodoc">Tipo de Documente</label>     
+            <select name="tipodoc" id="tipodoc" class="form-control selectpicker"  title="Seleccione El tipo de Documento">
+                <option value="1" @if ($usuario->tipodoc_id == "1") selected @endif> DNI</option>
+                <option value="2" @if ($usuario->tipodoc_id == "2") selected @endif> CUIT</option>
+                <option value="3" @if ($usuario->tipodoc_id == "3") selected @endif> CUIL</option>
+                <option value="4" @if ($usuario->tipodoc_id == "4") selected @endif> PASAPORTE</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md-4">
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="dni">N° de Documento</label>
+            <div class="input-group input-group-alternative mb-3">
+              <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-hat-3"></i></span> 
+              </div>
+              <input class="form-control" placeholder="Numero" type="text" name="dni" value="{{ old('dni', $usuario->dni) }}" required >
+            </div>
+          </div>
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-6">
           <div class="form-group">
             <label for="name">Dirección</label>
             <input type="text" name="address" class="form-control" value="{{ old('address', $usuario->address) }}">
           </div>    
         </div>
-        <div class="col-md-4">
+        <div class="col-6">
           <div class="form-group">
             <label for="name">Teléfono</label>
             <input type="text" name="phone" class="form-control" value="{{ old('phone', $usuario->phone) }}">
           </div>    
         </div>
       </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" class="form-control selectpicker" name="sexo"  title="Sexo">
+              <option value ="Varon" @if($usuario->sexo=="Varon") selected @endif>
+                Varon
+              </option>
+              <option value ="Mujer" @if($usuario->sexo=="Mujer") selected @endif>
+                Mujer
+              </option>
+              <option value ="No definido" @if($usuario->sexo=="No definido") selected @endif>
+                No definido
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="fecha_nac">Fecha de Nacimiento</label>
+             <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                <input class="form-control datepicker" placeholder="Selecionar fecha" 
+                id="date" name="fecha_nac" type="text" 
+                value="{{old('fecha_nac',$usuario->fecha_nac)}}" 
+                data-date-format="yyyy-mm-dd"
+                data-date-start-date="" 
+                data-date-end-date="{{ date('Y-m-d') }}">
+            </div>
+        </div>  
+        </div>
+      </div>      
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
@@ -101,10 +163,13 @@
 @endsection
 
 @section('scripts')
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+{{--<script>
   $(document).ready(()=>{
     $('#specialities').selectpicker('val',@json($speciality_id));
   });
 </script> --}}
+<script src=" {{ asset('/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+
+
 @endsection

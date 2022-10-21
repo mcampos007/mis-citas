@@ -27,6 +27,19 @@ class UserTableSeeder extends Seeder
             'confirmed' => '1'
         ]);
         User::create([
+            'name' => 'Admin',
+            'email' => 'admin@turney.com.ar',
+            'email_verified_at' => now(),
+            'password' => bcrypt('123456'),
+            'dni' => '',
+            'address' => '',
+            'phone' => '',
+            'role' => 'admin',
+            'sexo' => 'No definido',
+            'last_name' => 'Turney',
+            'confirmed' => '1'
+        ]);
+        User::create([
             'name' => 'paciente',
             'email' => 'paciente@yahoo.com',
             'email_verified_at' => now(),
