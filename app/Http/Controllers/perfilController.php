@@ -36,7 +36,7 @@ class perfilController extends Controller
      */
     public function store(Request $request)
     {
-        //       dd($request->toArray());
+        dd($request->toArray());
         $usuario = User::find(auth()->user()->id);
         $file = $request->file('photo');
         if ($file)
@@ -59,7 +59,7 @@ class perfilController extends Controller
         $usuario->phone = $request->input('phone'); 
         $usuario->fecha_nac = $request->input('fecha_nac');
         $usuario->sexo = $request->input('sexo');
-        $usuario->tipodoc_id = $request->input('tipodoc_id');
+        $usuario->tipodoc_id = $request->input('tipodoc');
         $usuario->last_name = $request->input('last_name');
         //$usuario->$request->input('role');
         //dd($usuario);
