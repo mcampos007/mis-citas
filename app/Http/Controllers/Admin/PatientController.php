@@ -38,15 +38,36 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         //
-         $rules = [
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'dni' => 'nullable|digits:8',
-            'address' => 'nullable|min:5',
-            'phone' => 'nullable|min:6'
+        $messages = [
+            'name.required' => 'Se debe Ingresar un nombre',
+            'name.min' => 'el nombre debe tener al menos tres letras',
+            'name.max' => 'el nombre no debe tener más de 50 caracteres.',
+            'email.required' => 'Se debe Ingresar un email',
+            'email.email' => 'el email ingreado no es válido',
+            'email.max' => 'la longitud del email no puede ser superior a 100 caracteres.',
+            'password.required' => 'Se debe Ingresar una clave',
+            'password.min' => 'La clave debe tener una longitud minima de 6 caracteres.',
+            'fecha_nac.required' => 'Se debe Ingresar la fecha de nacimiento',
+            'last_name.required' => 'Se debe Ingresar un Apellido',
+            'last_name.min' => 'el apellido debe tener al menos tres letras',
+            'last_name.max' => 'el apellido no debe tener más de 50 caracteres.',
+            'sexo.required' => 'Se debe Ingresar el sexo',
+            'dni.min' => 'El número de DNI debe tener al menos 7 números.',
+            'dni.max' => 'El número´de DNI No puede tener más de 11 dígitos.',
         ];
+         $rules = [
+            'name' => ['required', 'string', 'min:3', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'last_name' => ['required', 'string', 'min:3', 'max:50'],
+            'fecha_nac' => ['required'],
+            'sexo' => 'required',
+            'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
+        ];
+
+
         //$this->validate($request, $rules, $messages);
-        $this->validate($request, $rules);
+        $this->validate($request, $rules, $messages);
 
         User::create(
             $request->only('name', 'email', 'dni', 'address', 'phone') +
@@ -95,18 +116,32 @@ class PatientController extends Controller
     public function update(Request $request, $id)
     {
         //
-         $rules = [
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'dni' => 'nullable|digits:8',
-            'address' => 'nullable|min:5',
-            'phone' => 'nullable|min:6',
-            'last_name' => 'required|min:3',
-            'fecha_nac' => 'required',
-            'sexo' => 'required'
+         $messages = [
+            'name.required' => 'Se debe Ingresar un nombre',
+            'name.min' => 'el nombre debe tener al menos tres letras',
+            'name.max' => 'el nombre no debe tener más de 50 caracteres.',
+            'email.required' => 'Se debe Ingresar un email',
+            'email.email' => 'el email ingreado no es válido',
+            'email.max' => 'la longitud del email no puede ser superior a 100 caracteres.',
+            'fecha_nac.required' => 'Se debe Ingresar la fecha de nacimiento',
+            'last_name.required' => 'Se debe Ingresar un Apellido',
+            'last_name.min' => 'el apellido debe tener al menos tres letras',
+            'last_name.max' => 'el apellido no debe tener más de 50 caracteres.',
+            'sexo.required' => 'Se debe Ingresar el sexo',
+            'dni.min' => 'El número de DNI debe tener al menos 7 números.',
+            'dni.max' => 'El número´de DNI No puede tener más de 11 dígitos.',
         ];
+         $rules = [
+            'name' => ['required', 'string', 'min:3', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:100'],
+            'last_name' => ['required', 'string', 'min:3', 'max:50'],
+            'fecha_nac' => ['required'],
+            'sexo' => 'required',
+            'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
+        ];
+
         //$this->validate($request, $rules, $messages);
-        $this->validate($request, $rules);
+        $this->validate($request, $rules,$messages);
         //dd($request);
         $user = User::patients()->findOrFail($id);
         
@@ -149,8 +184,10 @@ class PatientController extends Controller
 
             // No se puede eliminar 
             $notification = "El paciente $patientName tiene turnos, no se puede eliminar.";
+            $isdeleted = "ok";
         }
-        return redirect('/patients')->with(compact('notification'));   
+       //return redirect('/patients')->with(compact('notification','isdeleted','ok'));   
+        return redirect('/patients')->with('isdeleted','ok');   
     }
         
 }

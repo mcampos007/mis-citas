@@ -49,10 +49,10 @@
             </td>
             <td>
               
-              <form action=" {{ url('/patients/'.$patient->id)}}" method="POST">
+              <form action=" {{ url('/patients/'.$patient->id)}}" method="POST" class="formulario-eliminar">
                 @csrf
                 @method("DELETE")
-                <a href="{{ url('patients/'.$patient->id.'/edit')}}" class="btn btn-sm btn-primary">Editar </a>
+                <a href="{{ url('patients/'.$patient->id.'/edit')}}" class="btn btn-sm btn-primary ">Editar </a>
                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
               </form>
             </td>
@@ -66,4 +66,41 @@
   </div>
 </div>
 @endsection
+@section('scripts')
+<script src=" {{asset("js/sweetalert2@11.js") }}"></script>
 
+@if(session('isdeleted')== 'ok')
+    <script>
+    Swal.fire(
+         ' Eliminado!',
+         'El paciente  a sido eliminado.',
+         'success');
+    </script>
+  @endif
+<script >
+  
+
+  $('.formulario-eliminar').submit(function(e){
+    e.preventDefault();
+     Swal.fire({
+    title: 'Estas seguro?',
+    text: "Esta acción no se podrá revertir!",
+    icon: 'Atención',
+    showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Si , Eliminar !'
+   }).then((result) => {
+     if (result.isConfirmed) {
+       /*Swal.fire(
+         ' Eliminado!',
+         'El paciente a sido eliminado.',
+         'success'
+       )*/
+       this.submit();
+     }
+   }) 
+  });
+ 
+</script>
+@endsection

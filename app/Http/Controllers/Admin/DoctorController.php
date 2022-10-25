@@ -50,12 +50,12 @@ class DoctorController extends Controller
         //
        //dd($request->toArray());
         $rules = [
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:50',
+            'last_name' => 'required|min:3|max:50',
             'email' => 'required|email',
             'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
             'address' => 'nullable|min:5',
             'phone' => 'nullable|min:6',
-            'last_name' => 'required|min:3',
             'sexo' => 'required',
             
         ];
@@ -71,7 +71,8 @@ class DoctorController extends Controller
             'phone.min' => 'El número telefonico debe tener al menos 6 dígitos.',
             'last_name.required' => 'Se debe ingresar el apellido',
             'last_name.min' => 'El apellido debe tener al menos tres letras',
-            'sexo' => 'required'
+            'sexo' => 'required',
+            'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
         ];
         //$this->validate($request, $rules, $messages);
         $this->validate($request, $rules, $messages);

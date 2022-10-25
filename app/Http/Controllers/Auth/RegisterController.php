@@ -53,13 +53,33 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         //dd($data);
+        $messages = [
+            'name.required' => 'Se debe Ingresar un nombre',
+            'name.min' => 'el nombre debe tener al menos tres letras',
+            'name.max' => 'el nombre no debe tener más de 50 caracteres.',
+            'email.required' => 'Se debe Ingresar un email',
+            'email.email' => 'el email ingreado no es válido',
+            'email.max' => 'la longitud del email no puede ser superior a 100 caracteres.',
+            'password.required' => 'Se debe Ingresar una clave',
+            'password.min' => 'La clave debe tener una longitud minima de 6 caracteres.',
+            'fecha_nac.required' => 'Se debe Ingresar la fecha de nacimiento',
+            'last_name.required' => 'Se debe Ingresar un Apellido',
+            'last_name.min' => 'el apellido debe tener al menos tres letras',
+            'last_name.max' => 'el apellido no debe tener más de 50 caracteres.',
+            
+
+        ];
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'min:3', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'min:3', 'max:50'],
             'fecha_nac' => ['required'],
-        ]);
+            'sexo' => 'required',
+            'sexo.required' => 'Se debe Ingresar el sexo',
+            'dni' => 'nullable|min:7|max:11', //'nullable|digits:8',
+
+        ], $messages);
     }
 
     /**
