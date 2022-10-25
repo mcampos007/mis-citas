@@ -17,9 +17,12 @@
   <!-- Argon CSS -->
   {{-- <link type="text/css" href="{{ asset('css/argon.css?v=1.0.0')}}" rel="stylesheet"> --}}
   <link  href="{{ asset('css/argon.css?v=1.0.0')}}" rel="stylesheet">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
 </head>
 
 <body class="bg-default">
+ 
   <div class="main-content">
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
@@ -99,6 +102,7 @@
   <!-- Argon JS -->
   @yield('scripts')
   <script src="{{ asset('js/argon.js?v=1.0.0')}}"></script>
+  
 </body>
 
 </html>

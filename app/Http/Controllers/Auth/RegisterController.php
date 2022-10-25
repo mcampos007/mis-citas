@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Mail\ConfirmacionRegistro;
 use Mail;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -108,5 +109,6 @@ class RegisterController extends Controller
         
         
     }
+
     
 }

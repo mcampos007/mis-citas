@@ -10,7 +10,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/presentation','HomeController@presentation');
 Route::get('/privacidad','HomeController@privacidad');
-Route::get('/aceptaprivacidad','PoliprivController@privacidad');
+Route::get('/aceptaprivacidad/','PoliprivController@privacidad');
 Route::post('/confirmarpolitica','PoliprivController@confirmar');
 
 Route::middleware(['auth', 'admin'])->namespace('Admin')->group(function(){

@@ -16,7 +16,7 @@
                         <strong>Error!</strong> {{ $errors->first()}}
                     </div>  
                 @endif
-              <form role="form" method="POST" action="{{ route('register') }}">
+              <form role="form" method="POST" action="{{ route('register') }}" class="formulario-registrar">
                 @csrf 
                 <div class="row">
                   <div class="col-6">
@@ -73,21 +73,19 @@
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="sexo">Sexo </label>
-                        <select id="sexo" class="form-control" name="sexo">
-                          <option value ="Varon" >
-                            Varon
-                          </option>
-                          <option value ="Mujer" >
-                            Mujer
-                          </option>
-                          <option value ="No definido" >
-                            No definido
-                          </option>
-                        </select>
-                      </div>
+                    <div class="form-group">
+                      <label for="sexo">Sexo </label>
+                      <select id="sexo" class="form-control" name="sexo">
+                        <option value ="Varon" >
+                          Varon
+                        </option>
+                        <option value ="Mujer" >
+                          Mujer
+                        </option>
+                        <option value ="No definido" >
+                          No definido
+                        </option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-6">
@@ -101,8 +99,9 @@
                           id="date" name="fecha_nac" type="text" 
                           value="{{old('fecha_nac')}}" 
                           data-date-format="yyyy-mm-dd"
-                          data-date-start-date="" 
-                          data-date-end-date="{{ date('Y-m-d') }}">
+                          data-date-start-date="-100y" 
+                          data-date-end-date="{{ date('Y-m-d') }}"
+                          required>
                       </div>
                   </div>  
                   </div>
@@ -129,18 +128,21 @@
                   </div>                    
                   </div>
                 </div>
-
                 <div class="row mt-3">
                   <div class="col-10">
                     <div class="form-group">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="polipriv"
-                        @if(isset($polipriv))
-                            {{'checked'}}
-                          @endif required />
-                        <label class="form-check-label" for="flexCheckDefault"><a href="{{ url("/aceptaprivacidad")}}" >
-                            Declaro que he leído y acepto la política de privacidad</a></label>
-
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="polipriv" 
+                        {{-- @if(isset($polipriv))
+                        {{'checked'}}
+                        @endif --}} required />
+                        {{-- <label class="form-check-label" for="flexCheckDefault"></label> --}}
+                          
+                          <!-- <a href="/aceptaprivacidad/" name="aceptar">Declaro que he leído y acepto la política de privacidad</a>
+                          Button trigger modal -->
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Declaro que he leído y acepto la política de privacidad
+                          </button>
                       </div>                     
                     </div>  
                   </div>  
@@ -148,8 +150,30 @@
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary mt-4">Confirmar Registro</button>
                 </div>
+
               </form>
+
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Política de Privacidad</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @include('includes.politicaprivacidad.politica')
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
           </div>
         </div>
       </div>
@@ -160,5 +184,25 @@
 
 <script src=" {{ asset('/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 
+<script src=" {{asset("js/sweetalert2@11.js") }}"></script>
+<script >
+  $('.formulario-registrar'.submit(function(e)){
+    e.preventDefault();
+    Swal.fire({
+  title: 'Debes Aceptar la política de privacidad?',
+  showDenyButton: true,
+  showCancelButton: false,
+  confirmButtonText: 'Aceptar',
+  denyButtonText: `No Acpectar`,
+}).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+  if (result.isConfirmed) {
+    Swal.fire('Saved!', '', 'success')
+  } else if (result.isDenied) {
+    Swal.fire('Changes are not saved', '', 'info')
+  }
+})    
+  })
 
+</script>
 @endsection

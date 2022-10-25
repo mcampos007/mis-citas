@@ -173,6 +173,13 @@ class AppointmentController extends Controller
         $datamail["hora_turno"] = $data['scheduled_time']; 
         //$this->emailusuario = $datamail['mailto'];
         $to = $datamail['mailto'];
+        //envío de mail al paciente
+        $this->envio_mail($vista, $to, $from, $subject, $datamail);
+
+        // envio de mail al medico informando del turno reservado
+        $vista = "emails.medico.turno_reservado";
+        $to = $doctor->email ;
+        //$from , $subject, $datamail
         $this->envio_mail($vista, $to, $from, $subject, $datamail);
 
       //Enviar mail con la confirmacion de turno
